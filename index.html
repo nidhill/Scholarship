@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>HACA Tech School — Scholarship Test</title>
+  <meta name="description" content="Take the HACA Tech School scholarship MCQ test and earn your seat." />
+  <style>
+    @font-face {
+      font-family: VCNudge;
+      src: url(VCNudgeThinTrial.otf) format("opentype");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-neon:   #00ff41;
+      --green-bright: #39ff14;
+      --green-mid:    #22c55e;
+      --green-dark:   #0a3d1a;
+      --green-glow:   rgba(0,255,65,0.3);
+      --black:        #000;
+      --black-rich:   #050505;
+      --black-card:   #0d0d0d;
+      --white:        #fff;
+      --gray-dim:     #888;
+      --font-vc:      "VCNudge", "Arial Black", sans-serif;
+      --font-sans:    "Inter", system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    html, body {
+      background: var(--black-rich);
+      height: 100%;
+      color: var(--white);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 2px; }
+
+    /* ── BACKGROUND ── */
+    .bg-glow {
+      pointer-events: none;
+      z-index: 0;
+      position: fixed;
+      inset: 0;
+    }
+    .bg-glow::before {
+      content: "";
+      filter: blur(40px);
+      background: radial-gradient(rgba(0,255,65,0.12) 0%, transparent 70%);
+      width: 80vw;
+      height: 60vh;
+      animation: 6s ease-in-out infinite glowPulse;
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translate(-50%);
+    }
+    .bg-glow::after {
+      content: "";
+      background: radial-gradient(at bottom, rgba(0,80,20,0.2) 0%, transparent 70%);
+      height: 50vh;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: .7; transform: translate(-50%) scale(1); }
+      50%       { opacity: 1;  transform: translate(-50%) scale(1.05); }
+    }
+
+    .bg-grid {
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,255,65,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,65,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      position: fixed;
+      inset: 0;
+    }
+
+    /* ── PAGE ── */
+    .page {
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0 clamp(12px, 4vw, 24px) 80px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      z-index: 10;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 720px;
+      padding: 28px 0 0;
+      display: flex;
+      position: relative;
+    }
+    .logo-img {
+      object-fit: contain;
+      width: auto;
+      height: clamp(60px, 12vw, 100px);
+      margin-left: -5px;
+    }
+    .header-badge {
+      font-family: var(--font-vc);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      background: rgba(0,255,65,0.05);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 11px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      z-index: 10;
+      width: 100%;
+      max-width: 720px;
+      padding: 48px 0 40px;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-vc);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      opacity: .8;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .hero-title {
+      font-family: var(--font-vc);
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: var(--white);
+      margin-bottom: 8px;
+      font-size: clamp(56px, 10vw, 100px);
+      line-height: .9;
+    }
+    .hero-title span {
+      color: var(--green-neon);
+      text-shadow: 0 0 40px rgba(0,255,65,0.6), 0 0 80px rgba(0,255,65,0.3);
+    }
+    .hero-subtitle {
+      color: var(--gray-dim);
+      margin-top: 20px;
+      max-width: 420px;
+      margin-inline: auto;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      z-index: 10;
+      gap: 6px;
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 32px;
+      display: flex;
+      position: relative;
+    }
+    .progress-step {
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      flex: 1;
+      height: 3px;
+      transition: background .4s;
+    }
+    .progress-step.active {
+      background: var(--green-neon);
+      box-shadow: 0 0 8px var(--green-neon);
+    }
+    .progress-step.done {
+      background: rgba(0,255,65,0.4);
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      z-index: 10;
+      background: rgba(13,13,13,0.85);
+      border: 1px solid rgba(0,255,65,0.12);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 720px;
+      padding: 48px;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.05), 0 32px 80px rgba(0,0,0,0.6), inset 0 1px rgba(255,255,255,0.04);
+    }
+    .form-card::before {
+      content: "";
+      background: linear-gradient(90deg, transparent, rgba(0,255,65,0.3), transparent);
+      width: 60%;
+      height: 1px;
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translate(-50%);
+    }
+
+    /* ── STEP HEADER ── */
+    .step-header {
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      display: flex;
+    }
+    .step-number {
+      font-family: var(--font-vc);
+      letter-spacing: 2px;
+      color: var(--green-neon);
+      white-space: nowrap;
+      background: rgba(0,255,65,0.08);
+      border: 1px solid rgba(0,255,65,0.2);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 13px;
+    }
+    .step-title {
+      font-family: var(--font-vc);
+      letter-spacing: -.5px;
+      color: var(--white);
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    /* ── FIELD ── */
+    .field-group { margin-bottom: 28px; }
+    .field-label {
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      display: block;
+    }
+    .field-label span {
+      color: rgba(255,255,255,0.25);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 4px;
+      font-size: 11px;
+      font-weight: 400;
+    }
+    .field-input {
+      width: 100%;
+      color: var(--white);
+      font-size: 15px;
+      font-family: var(--font-sans);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      outline: none;
+      padding: 16px 20px;
+      transition: all .25s;
+    }
+    .field-input:focus {
+      background: rgba(0,255,65,0.03);
+      border-color: rgba(0,255,65,0.4);
+      box-shadow: 0 0 0 3px rgba(0,255,65,0.08);
+    }
+    .field-input::placeholder { color: rgba(255,255,255,0.2); }
+    /* override Chrome autofill white background */
+    .field-input:-webkit-autofill,
+    .field-input:-webkit-autofill:hover,
+    .field-input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+      -webkit-text-fill-color: #fff !important;
+      border-color: rgba(0,255,65,0.3) !important;
+    }
+    .field-input.error { border-color: rgba(255,77,77,0.6) !important; box-shadow: 0 0 0 3px rgba(255,77,77,0.1); }
+    .course-error-wrap.error { padding: 12px; border-radius: 12px; border: 1px solid rgba(255,77,77,0.3); background: rgba(255,77,77,0.04); }
+
+    /* ── CHIPS (multi-select) ── */
+    .chips-grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      display: grid;
+    }
+    .chip {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      transition: all .15s;
+      display: flex;
+    }
+    .chip:hover { background: rgba(0,255,65,0.04); border-color: rgba(0,255,65,0.3); }
+    .chip.selected {
+      border-color: var(--green-neon);
+      background: rgba(0,255,65,0.08);
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.2);
+    }
+    .chip-check {
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+      width: 18px; height: 18px;
+      transition: all .2s;
+      display: flex;
+    }
+    .chip.selected .chip-check { background: var(--green-neon); border-color: var(--green-neon); }
+    .chip-check svg { stroke: #000; stroke-width: 3px; opacity: 0; width: 10px; height: 10px; transition: opacity .2s; }
+    .chip.selected .chip-check svg { opacity: 1; }
+    .chip-label { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; transition: color .2s; }
+    .chip.selected .chip-label { color: var(--white); }
+
+    /* ── RADIO CARDS (single select) ── */
+    .radio-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      display: grid;
+    }
+    .radio-card {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      transition: all .15s;
+      display: flex;
+    }
+    .radio-card:hover { background: rgba(0,255,65,0.04); border-color: rgba(0,255,65,0.3); }
+    .radio-card.selected { border-color: var(--green-neon); background: rgba(0,255,65,0.08); }
+    .radio-dot {
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+      width: 18px; height: 18px;
+      transition: all .2s;
+      display: flex;
+    }
+    .radio-card.selected .radio-dot { border-color: var(--green-neon); }
+    .radio-dot::after {
+      content: "";
+      background: var(--green-neon);
+      border-radius: 50%;
+      width: 8px; height: 8px;
+      transition: transform .2s;
+      transform: scale(0);
+    }
+    .radio-card.selected .radio-dot::after { transform: scale(1); }
+    .radio-label { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; transition: color .2s; }
+    .radio-card.selected .radio-label { color: var(--white); }
+
+    /* ── QUESTION BLOCK ── */
+    .question-block { margin-bottom: 32px; }
+    .question-block:last-child { margin-bottom: 0; }
+    .q-label {
+      font-family: var(--font-vc);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      font-size: 11px;
+      margin-bottom: 8px;
+      opacity: .7;
+    }
+    .q-text {
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .q-options { grid-template-columns: 1fr 1fr; gap: 8px; display: grid; }
+
+    /* ── NAV ── */
+    .form-nav {
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 40px;
+      display: flex;
+    }
+    .btn-back {
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      -webkit-tap-highlight-color: transparent;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      transition: all .15s;
+      display: flex;
+    }
+    .btn-back:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+    .btn-next {
+      background: var(--green-neon);
+      color: #000;
+      letter-spacing: .5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      border: none;
+      border-radius: 12px;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      max-width: 260px;
+      padding: 14px 32px;
+      transition: all .15s;
+      display: flex;
+    }
+    .btn-next:hover {
+      background: var(--green-bright);
+      transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(0,255,65,0.4);
+    }
+    .btn-next:active { transform: translateY(0); }
+    .btn-next:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    .btn-submit {
+      background: var(--green-neon);
+      color: #000;
+      letter-spacing: .5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-vc);
+      text-transform: uppercase;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      border: none;
+      border-radius: 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px 40px;
+      transition: all .15s;
+      display: flex;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(0,255,65,0.5), 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .btn-submit:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    /* ── ERROR TEXT ── */
+    .error-text { color: #ff4d4d; margin-top: 8px; font-size: 13px; font-weight: 500; display: none; }
+    .error-text.show { display: block; }
+
+    /* ── TIMER ── */
+    .timer-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+    }
+    .timer-pill {
+      font-family: var(--font-vc);
+      letter-spacing: 2px;
+      color: var(--green-neon);
+      background: rgba(0,255,65,0.06);
+      border: 1px solid rgba(0,255,65,0.2);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .timer-pill.warn { color: #ff4d4d; border-color: rgba(255,77,77,0.3); background: rgba(255,77,77,0.06); }
+
+    /* ── RESULT VIEW ── */
+    .id-view {
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      width: 100%;
+      max-width: 720px;
+      padding: 40px 0 0;
+      animation: .6s forwards fadeInUp;
+      display: none;
+      position: relative;
+    }
+    .id-view.active { display: flex; }
+    @keyframes fadeInUp {
+      0%   { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .id-success-msg { text-align: center; }
+    .id-success-msg h2 {
+      font-family: var(--font-vc);
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: .9;
+    }
+    .id-success-msg h2 .green {
+      color: var(--green-neon);
+      text-shadow: 0 0 30px rgba(0,255,65,0.5);
+    }
+    .id-success-msg p { color: var(--gray-dim); font-size: 15px; line-height: 1.6; }
+
+    /* ── SCHOLARSHIP CARD ── */
+    .dopamine-card-wrapper { width: 100%; position: relative; }
+    .dopamine-card {
+      aspect-ratio: 16 / 10;
+      border: 2px solid rgba(0,255,65,0.2);
+      border-radius: 16px;
+      width: 100%;
+      animation: .8s cubic-bezier(.16,1,.3,1) .2s both cardAppear;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,255,65,0.1), 0 40px 100px rgba(0,0,0,0.8), 0 0 60px rgba(0,255,65,0.15);
+      background: #050505;
+    }
+    @keyframes cardAppear {
+      0%   { opacity: 0; transform: scale(.9) rotateX(10deg); }
+      100% { opacity: 1; transform: scale(1) rotateX(0); }
+    }
+
+    .card-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,65,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,65,0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .card-glow-orb {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      top: -20%;
+      right: -10%;
+      background: radial-gradient(circle, rgba(0,255,65,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .scanline {
+      pointer-events: none;
+      z-index: 2;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+      position: absolute;
+      inset: 0;
+    }
+    .dopamine-overlay {
+      background: linear-gradient(rgba(0,0,0,0.1) 0%, transparent 40% 60%, rgba(0,0,0,0.7) 100%);
+      position: absolute;
+      inset: 0;
+    }
+    .dopamine-content {
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(12px, 3%, 28px);
+      display: flex;
+      position: absolute;
+      inset: 0;
+    }
+    .card-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .card-course-badge {
+      font-family: var(--font-vc);
+      font-size: clamp(8px, 1.5vw, 13px);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      background: rgba(0,255,65,0.1);
+      border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 6px;
+      padding: 4px 10px;
+    }
+    .dopamine-logo {
+      object-fit: contain;
+      width: clamp(60px, 12%, 100px);
+    }
+    .card-score-ring {
+      position: relative;
+      width: clamp(48px, 10vw, 80px);
+      height: clamp(48px, 10vw, 80px);
+    }
+    .ring-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .ring-bg { fill: none; stroke: rgba(255,255,255,0.08); }
+    .ring-fill { fill: none; stroke: var(--green-neon); stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+    .ring-text-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring-pct {
+      font-family: var(--font-vc);
+      font-size: clamp(10px, 2vw, 18px);
+      color: var(--green-neon);
+      line-height: 1;
+    }
+    .ring-label { font-size: clamp(6px, 1vw, 9px); color: rgba(255,255,255,0.4); margin-top: 1px; }
+
+    .dopamine-footer {
+      font-family: var(--font-vc);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      align-items: flex-end;
+      gap: 0;
+      font-size: clamp(12px, 2.5vw, 22px);
+      display: flex;
+      flex-direction: column;
+    }
+    .footer-name-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(6px, 1.5vw, 16px);
+      margin-bottom: 4px;
+    }
+    .dopamine-label { color: var(--green-neon); text-shadow: 0 0 20px rgba(0,255,65,0.8); }
+    .dopamine-divider { color: rgba(255,255,255,0.5); margin: 0 clamp(4px,1%,10px); }
+    .dopamine-name { color: var(--white); }
+    .dopamine-id { color: rgba(0,255,65,0.7); font-size: clamp(9px, 1.5vw, 14px); letter-spacing: 3px; }
+    .card-stat-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 2vw, 20px);
+      margin-top: 4px;
+    }
+    .card-stat {
+      font-size: clamp(8px, 1.2vw, 12px);
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-sans);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .card-stat strong { color: rgba(255,255,255,0.9); }
+
+    /* ── SCORE SUMMARY (below card) ── */
+    .score-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .score-box {
+      background: rgba(13,13,13,0.85);
+      border: 1px solid rgba(0,255,65,0.12);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .score-val {
+      font-family: var(--font-vc);
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .score-val.green { color: var(--green-neon); text-shadow: 0 0 20px rgba(0,255,65,0.5); }
+    .score-val.red   { color: #ff4d4d; }
+    .score-val.white { color: var(--white); }
+    .score-box-label {
+      font-size: 11px;
+      color: var(--gray-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* ── SCHOLARSHIP BANNER ── */
+    .scholarship-banner {
+      width: 100%;
+      background: rgba(0,255,65,0.04);
+      border: 1px solid rgba(0,255,65,0.15);
+      border-radius: 16px;
+      padding: 24px 28px;
+    }
+    .scholarship-banner.fail {
+      background: rgba(255,77,77,0.04);
+      border-color: rgba(255,77,77,0.15);
+    }
+    .banner-title {
+      font-family: var(--font-vc);
+      font-size: 18px;
+      letter-spacing: .5px;
+      color: var(--green-neon);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .scholarship-banner.fail .banner-title { color: #ff4d4d; }
+    .banner-msg { font-size: 14px; color: var(--gray-dim); line-height: 1.6; }
+
+    /* ── ANSWER REVIEW ── */
+    .review-wrap { width: 100%; }
+    .review-toggle {
+      background: transparent;
+      border: 1px solid rgba(0,255,65,0.15);
+      color: var(--green-neon);
+      font-family: var(--font-vc);
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      transition: all .2s;
+    }
+    .review-toggle:hover { background: rgba(0,255,65,0.06); }
+    .review-list { display: none; margin-top: 16px; flex-direction: column; gap: 10px; }
+    .review-list.open { display: flex; }
+    .review-item {
+      background: rgba(13,13,13,0.85);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .review-item.r-correct { border-color: rgba(0,255,65,0.2); }
+    .review-item.r-wrong   { border-color: rgba(255,77,77,0.2); }
+    .review-item.r-skip    { border-color: rgba(255,255,255,0.06); }
+    .review-q-text { font-size: 14px; font-weight: 500; margin-bottom: 8px; line-height: 1.4; color: rgba(255,255,255,0.8); }
+    .review-ans { font-size: 13px; margin-top: 4px; }
+    .review-correct-ans { color: var(--green-neon); }
+    .review-your-ans    { color: #ff4d4d; }
+    .review-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+      float: right; margin-left: 10px;
+    }
+    .rb-correct { background: rgba(0,255,65,0.1);  color: var(--green-neon); }
+    .rb-wrong   { background: rgba(255,77,77,0.1); color: #ff4d4d; }
+    .rb-skip    { background: rgba(255,255,255,0.06); color: var(--gray-dim); }
+
+    /* ── CARD ACTIONS ── */
+    .card-actions { flex-wrap: wrap; gap: 12px; width: 100%; display: flex; }
+    .btn-download {
+      background: var(--green-neon);
+      color: #000;
+      cursor: pointer;
+      min-width: 160px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      border: none;
+      border-radius: 12px;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      transition: all .15s;
+      display: flex;
+    }
+    .btn-download:hover { transform: translateY(-1px); box-shadow: 0 0 24px rgba(0,255,65,0.4); }
+    .btn-retake {
+      min-width: 160px;
+      color: var(--green-neon);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      background: transparent;
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 12px;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      text-decoration: none;
+      transition: all .15s;
+      display: flex;
+    }
+    .btn-retake:hover { border-color: var(--green-neon); background: rgba(0,255,65,0.08); }
+
+    /* ── RESPONSIVE ── */
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      nav, .header { padding: 16px 20px 0; }
+      .hero { padding: 36px 16px 28px; }
+      .hero-title { font-size: clamp(42px, 12vw, 72px); }
+      .hero-subtitle { font-size: 14px; }
+      .form-card { padding: 32px 24px; border-radius: 18px; }
+      .radio-grid[style*="1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
+      .step-title { font-size: 22px; }
+      .q-options { grid-template-columns: 1fr 1fr; }
+      .score-summary { gap: 10px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .header { padding: 14px 16px 0; flex-wrap: nowrap; gap: 8px; }
+      .logo-img { height: clamp(36px, 10vw, 56px); }
+      .header-badge { font-size: 9px; padding: 4px 10px; white-space: nowrap; }
+
+      .hero { padding: 28px 12px 20px; }
+      .hero-eyebrow { font-size: 10px; letter-spacing: 3px; }
+      .hero-title { font-size: clamp(38px, 14vw, 60px); letter-spacing: -1px; }
+      .hero-subtitle { font-size: 13px; margin-top: 12px; }
+
+      .progress-bar { margin-bottom: 20px; }
+
+      .form-card { padding: 24px 16px; border-radius: 16px; }
+      .step-header { gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+      .step-number { font-size: 11px; }
+      .step-title { font-size: 18px; }
+
+      .field-label { font-size: 10px; }
+      .field-input { font-size: 14px; padding: 13px 14px; border-radius: 10px; }
+
+      .chips-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .chip { padding: 10px 12px; gap: 8px; border-radius: 10px; }
+      .chip-label { font-size: 12px; }
+
+      .radio-grid[style*="1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+      .radio-grid { grid-template-columns: 1fr !important; }
+      .radio-card { padding: 13px 14px; border-radius: 10px; }
+      .radio-label { font-size: 13px; }
+
+      .q-options { grid-template-columns: 1fr; gap: 8px; }
+      .question-block { margin-bottom: 24px; }
+      .q-text { font-size: 14px; }
+      .q-label { font-size: 10px; }
+
+      .timer-pill { font-size: 13px; padding: 5px 12px; }
+
+      .form-nav { flex-direction: column-reverse; gap: 10px; margin-top: 28px; }
+      .btn-back { width: 100%; justify-content: center; }
+      .btn-next { max-width: 100%; width: 100%; }
+      .btn-submit { font-size: 14px; padding: 15px 24px; }
+
+      .score-summary { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .score-val { font-size: 24px; }
+      .score-box { padding: 14px 10px; border-radius: 12px; }
+      .score-box-label { font-size: 9px; }
+
+      .thankyou-title { font-size: clamp(28px, 10vw, 48px); }
+      .thankyou-sub { font-size: 13px; }
+      .tq-row { padding: 12px 16px; }
+      .tq-label { font-size: 10px; }
+      .tq-val { font-size: 13px; }
+
+      .card-actions { flex-direction: column; }
+      .btn-download, .btn-retake { width: 100%; }
+      .btn-home-only { width: 100%; }
+
+      .id-view { gap: 20px; padding: 24px 0 0; }
+      .thankyou-icon { font-size: 36px; }
+
+      .review-toggle { font-size: 12px; padding: 10px 16px; }
+      .review-item { padding: 12px 14px; }
+      .review-q-text { font-size: 13px; }
+      .review-ans { font-size: 12px; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 360px) {
+      .hero-title { font-size: 34px; }
+      .form-card { padding: 20px 12px; }
+      .chips-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .chip { padding: 8px 10px; }
+      .chip-label { font-size: 11px; }
+      .score-summary { gap: 6px; }
+      .score-val { font-size: 20px; }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── THANK YOU PAGE ── */
+    .thankyou-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .thankyou-icon {
+      font-size: 48px;
+      color: var(--green-neon);
+      text-shadow: 0 0 40px rgba(0,255,65,0.6);
+      animation: 2s ease-in-out infinite pulse-icon;
+    }
+    @keyframes pulse-icon {
+      0%,100% { text-shadow: 0 0 20px rgba(0,255,65,0.4); }
+      50%      { text-shadow: 0 0 60px rgba(0,255,65,0.9); }
+    }
+    .thankyou-title {
+      font-family: var(--font-vc);
+      font-size: clamp(36px, 7vw, 64px);
+      line-height: .95;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+    .thankyou-sub {
+      color: var(--gray-dim);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 400px;
+    }
+    .thankyou-card {
+      width: 100%;
+      background: rgba(13,13,13,0.85);
+      border: 1px solid rgba(0,255,65,0.12);
+      border-radius: 16px;
+      padding: 8px 0;
+      overflow: hidden;
+    }
+    .tq-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      gap: 16px;
+    }
+    .tq-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray-dim);
+    }
+    .tq-val {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      text-align: right;
+      word-break: break-all;
+    }
+    .tq-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 0 24px;
+    }
+    .saving-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--gray-dim);
+    }
+    .saving-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green-neon);
+      animation: .8s ease-in-out infinite alternate blink;
+    }
+    @keyframes blink { from { opacity: 1; } to { opacity: 0.2; } }
+    .saved-indicator {
+      font-size: 13px;
+      color: var(--green-neon);
+      font-weight: 600;
+    }
+    .btn-home-only {
+      background: transparent;
+      border: 1px solid rgba(0,255,65,0.25);
+      color: var(--green-neon);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-home-only:hover { border-color: var(--green-neon); background: rgba(0,255,65,0.06); }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<main class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <img alt="HACA Tech School" class="logo-img" src="imgi_1_tech-school-logo-white.png" />
+    <span class="header-badge">Scholarship ✦</span>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <p class="hero-eyebrow">HACA Tech School</p>
+    <h1 class="hero-title">Get Your<br /><span>SEAT.</span></h1>
+    <p class="hero-subtitle">
+      <span style="color:#ff9800">Take the scholarship MCQ test.</span><br />
+      <span style="color:var(--green-neon)">Score 60%+ and earn your scholarship ID.</span>
+    </p>
+  </section>
+
+  <!-- ── PROGRESS BAR ── -->
+  <div class="progress-bar" id="progress-bar">
+    <div class="progress-step active" id="ps-1"></div>
+    <div class="progress-step"        id="ps-2"></div>
+    <div class="progress-step"        id="ps-3"></div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       STEP 1 — Personal Info
+  ══════════════════════════════════ -->
+  <div class="form-card" id="step1">
+    <div class="step-header">
+      <span class="step-number">01 / 03</span>
+      <h2 class="step-title">Who are you?</h2>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="fullName">Full Name</label>
+      <input id="fullName" type="text" class="field-input" placeholder="Your name here..." oninput="clearErr('err-name','fullName')" />
+      <div class="error-text" id="err-name">⚠ Please enter your full name.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="emailField">Email Address</label>
+      <input id="emailField" type="email" class="field-input" placeholder="you@email.com" oninput="clearErr('err-email','emailField')" />
+      <div class="error-text" id="err-email">⚠ Please enter a valid email address.</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="mobileField">Mobile Number</label>
+      <input id="mobileField" type="tel" class="field-input" placeholder="+91 XXXXX XXXXX" oninput="clearErr('err-mobile','mobileField')" />
+      <div class="error-text" id="err-mobile">⚠ Please enter a valid mobile number.</div>
+    </div>
+
+    <div class="field-group" id="course-section">
+      <label class="field-label">Which course? <span>choose one ✦ required</span></label>
+      <div class="radio-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="radio-card" id="course-mern" onclick="selectCourse('mern')">
+          <div class="radio-dot"></div>
+          <span class="radio-label">MERN Stack &amp; AI</span>
+        </div>
+        <div class="radio-card" id="course-data" onclick="selectCourse('data')">
+          <div class="radio-dot"></div>
+          <span class="radio-label">Data Analytics</span>
+        </div>
+        <div class="radio-card" id="course-python" onclick="selectCourse('python')">
+          <div class="radio-dot"></div>
+          <span class="radio-label">Python, Django &amp; AI</span>
+        </div>
+      </div>
+      <div class="error-text" id="err-course">⚠ Please select a course to continue.</div>
+    </div>
+
+    <div class="field-group" id="skills-section" style="margin-bottom:0">
+      <label class="field-label">What do you know? <span>select at least one</span></label>
+      <div class="chips-grid" id="chips-grid">
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">HTML / CSS</span>
+        </div>
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">JavaScript</span>
+        </div>
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">Python</span>
+        </div>
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">Excel / Sheets</span>
+        </div>
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">Databases</span>
+        </div>
+        <div class="chip" onclick="toggleChip(this)">
+          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
+          <span class="chip-label">None yet</span>
+        </div>
+      </div>
+      <div class="error-text" id="err-skills">⚠ Please select at least one option.</div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <button class="btn-next" onclick="goStep2()">
+        Continue
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       STEP 2 — The Test
+  ══════════════════════════════════ -->
+  <div class="form-card" id="step2" style="display:none">
+    <div class="step-header">
+      <span class="step-number" id="step2-num">02 / 03</span>
+      <h2 class="step-title" id="step2-title">The Test</h2>
+    </div>
+
+    <div class="timer-row">
+      <div class="timer-pill" id="timer-pill">⏱ <span id="timer-txt">15:00</span></div>
+    </div>
+
+    <div id="questions-container"></div>
+
+    <div class="form-nav" style="margin-top:40px">
+      <button class="btn-back" onclick="goStep1()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back
+      </button>
+      <button class="btn-submit" onclick="submitQuiz()">
+        Submit Test ✦
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       STEP 3 — Thank You
+  ══════════════════════════════════ -->
+  <div class="id-view" id="step3">
+
+    <div class="thankyou-wrap">
+      <div class="thankyou-icon">✦</div>
+      <h2 class="thankyou-title">Thank You for<br/><span class="green">Participating!</span></h2>
+      <p class="thankyou-sub">We've received your test submission.<br/>Our team will review your responses and contact you soon.</p>
+      <div class="thankyou-card">
+        <div class="tq-row">
+          <span class="tq-label">Name</span>
+          <span class="tq-val" id="tq-name">—</span>
+        </div>
+        <div class="tq-divider"></div>
+        <div class="tq-row">
+          <span class="tq-label">Email</span>
+          <span class="tq-val" id="tq-email">—</span>
+        </div>
+        <div class="tq-divider"></div>
+        <div class="tq-row">
+          <span class="tq-label">Mobile</span>
+          <span class="tq-val" id="tq-mobile">—</span>
+        </div>
+        <div class="tq-divider"></div>
+        <div class="tq-row">
+          <span class="tq-label">Course</span>
+          <span class="tq-val" id="tq-course">—</span>
+        </div>
+        <div class="tq-divider"></div>
+        <div class="tq-row">
+          <span class="tq-label">Status</span>
+          <span class="tq-val" style="color:var(--green-neon)">Submitted ✓</span>
+        </div>
+      </div>
+      <div class="saving-indicator" id="saving-indicator">
+        <span class="saving-dot"></span> Saving your submission…
+      </div>
+      <div class="saved-indicator" id="saved-indicator" style="display:none">
+        ✓ Submission saved successfully
+      </div>
+      <button class="btn-home-only" onclick="goHome()">← Back to Home</button>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════
+   QUIZ DATA
+═══════════════════════════════════════ */
+const QUIZZES = {
+  mern: {
+    label: 'MERN Stack & AI',
+    questions: [
+      { q:'What is Web Development?',
+        opts:['Creating mobile apps only','Building and maintaining websites','Designing posters','Writing books'], ans:1 },
+      { q:'What is Full-Stack Development?',
+        opts:['Working only on frontend','Working only on backend','Working on both frontend and backend','Managing databases only'], ans:2 },
+      { q:'What is the difference between frontend and backend?',
+        opts:['Frontend is server, backend is design','Frontend is user interface, backend handles data and logic','Both are the same','Backend is only for styling'], ans:1 },
+      { q:'Why are you choosing the MERN stack?',
+        opts:['It is outdated','It is only for designers','It is a popular full-stack JavaScript technology','It is used only for gaming'], ans:2 },
+      { q:'What is the full form of MERN?',
+        opts:['MySQL, Express, React, Node','MongoDB, Express, React, Node','MongoDB, Excel, React, Node','MySQL, Express, Redux, Node'], ans:1 },
+      { q:'What is MongoDB used for?',
+        opts:['Designing UI','Database to store data','Writing CSS','Creating animations'], ans:1 },
+      { q:'What is Express.js?',
+        opts:['A database','A frontend framework','A backend framework for Node.js','A design tool'], ans:2 },
+      { q:'What is React used for?',
+        opts:['Database management','Backend coding','Building user interfaces','Server hosting'], ans:2 },
+      { q:'What is Node.js?',
+        opts:['A programming language','A runtime to run JavaScript on server','A database','A browser'], ans:1 },
+      { q:'What is AI (Artificial Intelligence)?',
+        opts:['Human intelligence','Machines that can think and learn like humans','Only robots','A programming language'], ans:1 },
+      { q:'Give one example of where AI is used in daily life.',
+        opts:['Calculator','Google Maps route suggestions','Notebook','Pen'], ans:1 },
+    ]
+  },
+  data: {
+    label: 'Data Analytics',
+    questions: [
+      { q:'What is Data?',
+        opts:['Random numbers','Information collected for analysis','Only numbers in Excel','Software tool'], ans:1 },
+      { q:'Which of the following is an example of data used in daily life?',
+        opts:['Your monthly expenses','A movie poster','A song','A painting'], ans:0 },
+      { q:'What does a data analyst mainly do?',
+        opts:['Design websites','Analyze data to find insights','Fix hardware issues','Write novels'], ans:1 },
+      { q:'If your monthly expenses are higher than your income, what does it indicate?',
+        opts:['Profit','Loss','Break-even','No impact'], ans:1 },
+      { q:'Which chart is best to compare categories?',
+        opts:['Pie chart','Bar chart','Line chart','Scatter plot'], ans:1 },
+      { q:'If a dataset has missing values, what should you do?',
+        opts:['Ignore them always','Delete or handle them carefully','Add random values','Stop analysis'], ans:1 },
+      { q:'Which of the following is a data tool?',
+        opts:['Calculator','Power BI','WhatsApp','Camera'], ans:1 },
+      { q:'What does a dashboard in data analytics show?',
+        opts:['Raw code','Visual summary of data','Only text','Database structure'], ans:1 },
+      { q:'A student scored 40 out of 50 marks. What is the percentage?',
+        opts:['60%','70%','80%','90%'], ans:2 },
+      { q:'Which tool is commonly used for data visualization?',
+        opts:['MS Word','Power BI / Tableau','Paint','Notepad'], ans:1 },
+    ]
+  },
+  python: {
+    label: 'Python, Django & AI',
+    questions: [
+      { q:'What is a programming language?',
+        opts:['A human language','A way to give instructions to computers','A game','A device'], ans:1 },
+      { q:'Python code is written in:',
+        opts:['Notebook','Text editor or IDE','Calculator','Browser only'], ans:1 },
+      { q:'What is an IDE?',
+        opts:['Internet device','Tool to write and run code','Game','Hardware'], ans:1 },
+      { q:'Which of these is a Python file extension?',
+        opts:['.html','.py','.jpg','.exe'], ans:1 },
+      { q:'Django is built using:',
+        opts:['Java','Python','C++','PHP'], ans:1 },
+      { q:'Django helps to build:',
+        opts:['Mobile hardware','Websites and web apps','Paintings','Music'], ans:1 },
+      { q:'What is a website backend?',
+        opts:['Design part','Server-side logic','Colors','Images'], ans:1 },
+      { q:'Django works on:',
+        opts:['Frontend','Backend','Hardware','Network cables'], ans:1 },
+      { q:'What is React?',
+        opts:['Database','Frontend JavaScript library','Programming language','Operating system'], ans:1 },
+      { q:'React is used for:',
+        opts:['Backend coding','UI (User Interface) building','Hardware','Storage'], ans:1 },
+      { q:'Frontend means:',
+        opts:['Server logic','User interface (what users see)','Database','Hardware'], ans:1 },
+      { q:'Backend means:',
+        opts:['UI design','Server-side logic and database','Colors','Images'], ans:1 },
+      { q:'Full-stack developer works on:',
+        opts:['Only frontend','Only backend','Both frontend and backend','Only hardware'], ans:2 },
+      { q:'What is a database?',
+        opts:['Storage for data','Code editor','Game','Browser'], ans:0 },
+      { q:'Django commonly uses:',
+        opts:['Excel','Databases like SQLite/MySQL','Paint','Video files'], ans:1 },
+      { q:'Generative AI can:',
+        opts:['Create content (text, images, code)','Only calculate','Only store data','Only play games'], ans:0 },
+      { q:'Chatbots like ChatGPT are examples of:',
+        opts:['Hardware','Generative AI','Network','Database'], ans:1 },
+      { q:'AI models learn from:',
+        opts:['Food','Data','Music','Paint'], ans:1 },
+      { q:'Python is widely used in AI because:',
+        opts:['Easy and powerful libraries','It is slow','It is old','It is difficult'], ans:0 },
+      { q:'Which library is used in Python for AI?',
+        opts:['NumPy / TensorFlow','HTML','CSS','Paint'], ans:0 },
+    ]
+  }
+};
+
+const LETTERS = ['A','B','C','D'];
+
+/* ═══════════════════════════════════════
+   SUPABASE
+   Table SQL (run once in Supabase SQL editor):
+   CREATE TABLE scholarship_submissions (
+     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+     name text, email text, mobile text, course text,
+     correct integer, total integer, percentage integer,
+     submitted_at timestamptz DEFAULT now()
+   );
+═══════════════════════════════════════ */
+// ── Supabase ──
+const SUPABASE_URL = 'https://djjkmyqskxpfldnkliym.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4qPgk_egvqwlFJ8l7gY7lQ_pXscXMej';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Google Sheet (paste your Apps Script Web App URL below) ──
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxZ-6nEhyN2sK0HXzayVcVIoovsze4HH-bbP7F6wADFu4EH0v-n64ll6VbcCh5whrE/exec';
+
+async function saveSubmission(payload) {
+  // 1. Save to Supabase
+  const supabasePromise = db.from('scholarship_submissions')
+    .insert([payload])
+    .then(({ error }) => { if (error) console.error('Supabase:', error); });
+
+  // 2. Send to Google Sheet (no-cors — fire and forget)
+  const sheetPromise = (SHEET_URL !== 'PASTE_YOUR_APPS_SCRIPT_URL_HERE')
+    ? fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(payload)
+      }).catch(e => console.error('Sheet:', e))
+    : Promise.resolve();
+
+  try {
+    await Promise.all([supabasePromise, sheetPromise]);
+    document.getElementById('saving-indicator').style.display = 'none';
+    document.getElementById('saved-indicator').style.display  = 'block';
+  } catch (e) {
+    console.error('Save error:', e);
+    document.getElementById('saving-indicator').style.display = 'none';
+    document.getElementById('saved-indicator').style.display  = 'block';
+  }
+}
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let selectedCourse = null;
+let userAnswers    = [];
+let timerInterval  = null;
+let timeLeft       = 15 * 60;
+
+/* ═══════════════════════════════════════
+   STEP 1 HELPERS
+═══════════════════════════════════════ */
+function toggleChip(el) {
+  el.classList.toggle('selected');
+  const anySelected = document.querySelectorAll('#chips-grid .chip.selected').length > 0;
+  if (anySelected) hideErr('err-skills');
+}
+
+function selectCourse(id) {
+  selectedCourse = id;
+  ['mern','data','python'].forEach(c => {
+    document.getElementById('course-' + c).classList.toggle('selected', c === id);
+  });
+  hideErr('err-course');
+  document.getElementById('course-section').style.border = '';
+  document.getElementById('course-section').style.borderRadius = '';
+  document.getElementById('course-section').style.padding = '';
+}
+
+function showErr(id) {
+  document.getElementById(id).classList.add('show');
+}
+function hideErr(id) {
+  document.getElementById(id).classList.remove('show');
+}
+function clearErr(errId, inputId) {
+  hideErr(errId);
+  if (inputId) document.getElementById(inputId).classList.remove('error');
+}
+
+/* ═══════════════════════════════════════
+   STEP 1 → 2
+═══════════════════════════════════════ */
+function goStep2() {
+  const name  = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('emailField').value.trim();
+  const nameInput  = document.getElementById('fullName');
+  const emailInput = document.getElementById('emailField');
+  let firstError = null;
+
+  if (!name) {
+    showErr('err-name');
+    nameInput.classList.add('error');
+    firstError = firstError || nameInput;
+  } else {
+    hideErr('err-name');
+    nameInput.classList.remove('error');
+  }
+
+  if (!email || !email.includes('@')) {
+    showErr('err-email');
+    emailInput.classList.add('error');
+    firstError = firstError || emailInput;
+  } else {
+    hideErr('err-email');
+    emailInput.classList.remove('error');
+  }
+
+  const mobile = document.getElementById('mobileField').value.trim();
+  const mobileInput = document.getElementById('mobileField');
+  if (!mobile || mobile.replace(/\D/g,'').length < 7) {
+    showErr('err-mobile');
+    mobileInput.classList.add('error');
+    firstError = firstError || mobileInput;
+  } else {
+    hideErr('err-mobile');
+    mobileInput.classList.remove('error');
+  }
+
+  const selectedChips = [...document.querySelectorAll('#chips-grid .chip.selected')]
+    .map(c => c.querySelector('.chip-label').textContent);
+  if (selectedChips.length === 0) {
+    showErr('err-skills');
+    const ss = document.getElementById('skills-section');
+    firstError = firstError || ss;
+  } else {
+    hideErr('err-skills');
+  }
+
+  if (!selectedCourse) {
+    showErr('err-course');
+    const cs = document.getElementById('course-section');
+    cs.style.border = '1px solid rgba(255,77,77,0.4)';
+    cs.style.borderRadius = '12px';
+    cs.style.padding = '12px';
+    firstError = firstError || cs;
+  }
+
+  if (firstError) {
+    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const quiz = QUIZZES[selectedCourse];
+  userAnswers = new Array(quiz.questions.length).fill(null);
+
+  document.getElementById('step2-title').textContent = quiz.label + ' Test';
+  buildQuestions(quiz);
+
+  setProgress(2);
+  document.getElementById('step1').style.display  = 'none';
+  document.getElementById('step2').style.display  = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  startTimer();
+}
+
+function goStep1() {
+  clearInterval(timerInterval);
+  setProgress(1);
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════
+   BUILD QUESTIONS
+═══════════════════════════════════════ */
+function buildQuestions(quiz) {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  quiz.questions.forEach((qObj, qi) => {
+    const optsHTML = qObj.opts.map((opt, oi) => `
+      <div class="radio-card" id="opt-${qi}-${oi}" onclick="selectAnswer(${qi},${oi})">
+        <div class="radio-dot" id="rdot-${qi}-${oi}"></div>
+        <span class="radio-label"><strong style="color:var(--green-neon);margin-right:6px">${LETTERS[oi]}.</strong>${opt}</span>
+      </div>
+    `).join('');
+
+    container.innerHTML += `
+      <div class="question-block">
+        <div class="q-label">Question ${qi + 1} / ${quiz.questions.length}</div>
+        <div class="q-text">${qObj.q}</div>
+        <div class="q-options">${optsHTML}</div>
+      </div>
+    `;
+  });
+}
+
+function selectAnswer(qi, oi) {
+  const quiz = QUIZZES[selectedCourse];
+  userAnswers[qi] = oi;
+
+  quiz.questions[qi].opts.forEach((_, i) => {
+    const card = document.getElementById(`opt-${qi}-${i}`);
+    card.classList.toggle('selected', i === oi);
+  });
+}
+
+/* ═══════════════════════════════════════
+   TIMER
+═══════════════════════════════════════ */
+function startTimer() {
+  timeLeft = 15 * 60;
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) { clearInterval(timerInterval); submitQuiz(); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m   = String(Math.floor(timeLeft / 60)).padStart(2,'0');
+  const s   = String(timeLeft % 60).padStart(2,'0');
+  const pill = document.getElementById('timer-pill');
+  document.getElementById('timer-txt').textContent = `${m}:${s}`;
+  pill.className = 'timer-pill' + (timeLeft <= 60 ? ' warn' : '');
+}
+
+/* ═══════════════════════════════════════
+   SUBMIT
+═══════════════════════════════════════ */
+function submitQuiz() {
+  clearInterval(timerInterval);
+
+  const quiz    = QUIZZES[selectedCourse];
+  const name    = document.getElementById('fullName').value.trim();
+  const email   = document.getElementById('emailField').value.trim();
+  const mobile  = document.getElementById('mobileField').value.trim();
+  const skills  = [...document.querySelectorAll('#chips-grid .chip.selected')]
+    .map(c => c.querySelector('.chip-label').textContent).join(', ');
+  const total   = quiz.questions.length;
+  let correct   = 0;
+
+  quiz.questions.forEach((q, i) => { if (userAnswers[i] === q.ans) correct++; });
+
+  const pct = Math.round((correct / total) * 100);
+
+  // ── fill thank-you card ──
+  document.getElementById('tq-name').textContent   = name;
+  document.getElementById('tq-email').textContent  = email;
+  document.getElementById('tq-mobile').textContent = mobile;
+  document.getElementById('tq-course').textContent = quiz.label;
+
+  // ── reset saving state ──
+  document.getElementById('saving-indicator').style.display = 'flex';
+  document.getElementById('saved-indicator').style.display  = 'none';
+
+  // ── save to Supabase ──
+  saveSubmission({ name, email, mobile, skills, course: quiz.label, correct, total, percentage: pct });
+
+  // ── show step 3 ──
+  setProgress(3);
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════ */
+function setProgress(step) {
+  [1,2,3].forEach(n => {
+    const el = document.getElementById('ps-' + n);
+    el.className = 'progress-step' + (n < step ? ' done' : n === step ? ' active' : '');
+  });
+}
+
+
+function goHome() {
+  clearInterval(timerInterval);
+  document.getElementById('step3').classList.remove('active');
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+  selectedCourse = null;
+  userAnswers = [];
+  ['mern','data','python'].forEach(c => document.getElementById('course-' + c).classList.remove('selected'));
+  const cs = document.getElementById('course-section');
+  cs.style.border = '';
+  cs.style.padding = '';
+  ['err-name','err-email','err-course'].forEach(hideErr);
+  document.getElementById('fullName').classList.remove('error');
+  document.getElementById('emailField').classList.remove('error');
+  document.getElementById('mobileField').classList.remove('error');
+  document.getElementById('fullName').value   = '';
+  document.getElementById('emailField').value = '';
+  document.getElementById('mobileField').value = '';
+  hideErr('err-mobile');
+  hideErr('err-skills');
+  document.querySelectorAll('#chips-grid .chip.selected').forEach(c => c.classList.remove('selected'));
+  setProgress(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
