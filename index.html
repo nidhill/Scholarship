@@ -1092,36 +1092,6 @@
       <div class="error-text" id="err-course">⚠ Please select a course to continue.</div>
     </div>
 
-    <div class="field-group" id="skills-section" style="margin-bottom:0">
-      <label class="field-label">What do you know? <span>select at least one</span></label>
-      <div class="chips-grid" id="chips-grid">
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">HTML / CSS</span>
-        </div>
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">JavaScript</span>
-        </div>
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">Python</span>
-        </div>
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">Excel / Sheets</span>
-        </div>
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">Databases</span>
-        </div>
-        <div class="chip" onclick="toggleChip(this)">
-          <span class="chip-check"><svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3"></polyline></svg></span>
-          <span class="chip-label">None yet</span>
-        </div>
-      </div>
-      <div class="error-text" id="err-skills">⚠ Please select at least one option.</div>
-    </div>
 
     <div class="form-nav">
       <div></div>
@@ -1444,16 +1414,6 @@ function goStep2() {
     mobileInput.classList.remove('error');
   }
 
-  const selectedChips = [...document.querySelectorAll('#chips-grid .chip.selected')]
-    .map(c => c.querySelector('.chip-label').textContent);
-  if (selectedChips.length === 0) {
-    showErr('err-skills');
-    const ss = document.getElementById('skills-section');
-    firstError = firstError || ss;
-  } else {
-    hideErr('err-skills');
-  }
-
   if (!selectedCourse) {
     showErr('err-course');
     const cs = document.getElementById('course-section');
@@ -1557,8 +1517,6 @@ function submitQuiz() {
   const name    = document.getElementById('fullName').value.trim();
   const email   = document.getElementById('emailField').value.trim();
   const mobile  = document.getElementById('mobileField').value.trim();
-  const skills  = [...document.querySelectorAll('#chips-grid .chip.selected')]
-    .map(c => c.querySelector('.chip-label').textContent).join(', ');
   const total   = quiz.questions.length;
   let correct   = 0;
 
@@ -1577,7 +1535,7 @@ function submitQuiz() {
   document.getElementById('saved-indicator').style.display  = 'none';
 
   // ── save to Supabase ──
-  saveSubmission({ name, email, mobile, skills, course: quiz.label, correct, total, percentage: pct });
+  saveSubmission({ name, email, mobile, course: quiz.label, correct, total, percentage: pct });
 
   // ── show step 3 ──
   setProgress(3);
@@ -1616,8 +1574,6 @@ function goHome() {
   document.getElementById('emailField').value = '';
   document.getElementById('mobileField').value = '';
   hideErr('err-mobile');
-  hideErr('err-skills');
-  document.querySelectorAll('#chips-grid .chip.selected').forEach(c => c.classList.remove('selected'));
   setProgress(1);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
